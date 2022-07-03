@@ -7,6 +7,16 @@ const purschaseButton = document.querySelector('.btn-purchase')
 
 purschaseButton.addEventListener('click', purchaseClicked)
 
+window.addEventListener('DOMContentLoaded', ()=>{
+    axios.get('http://localhost:3000/products')
+    .then(result=>{
+        // console.log(result.data.products)
+
+        displayProducts(result.data.products)
+    })
+})
+
+
 cartBtn.addEventListener('click' , ()=>{
     cart.classList.toggle('active')
     cartBtn.classList.toggle('active')
@@ -28,6 +38,32 @@ for(let i=0; i<quantityInputs.length; i++){
     let input = quantityInputs[i]
 
     input.addEventListener('change', quantityChanged)
+}
+
+function displayProducts(products){
+    console.log(products)
+    let musicContent = document.querySelector('#music-content')
+    musicContent.appendChild
+
+    for(let i=0; i<products.length; i++){
+        let musicItem = document.createElement('div')
+        musicItem.id = products[i].id
+
+        musicItem.innerHTML =  `
+        <h3>${products[i].title}</h3>
+        <div class="image-container">
+            <img class="prod-images" src="${products[i].imageUrl}" alt="">
+        </div>
+        <div class="prod-details">
+            <span>$<span>${products[i].price}</span></span>
+            <button class="shop-item-button" type="button">ADD TO CART</button>
+        </div>
+        `
+        musicContent.append(musicItem)
+    }
+    
+
+    musicContent.append()
 }
 
 function purchaseClicked(){
