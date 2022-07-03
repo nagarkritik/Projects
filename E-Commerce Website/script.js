@@ -2,7 +2,7 @@ const cartBtn = document.querySelector('.cart-btn')
 const cart = document.querySelector('.content-section')
 
 const removeCartItemButtons = document.querySelectorAll('.btn-danger')
-const addToCartButtons = document.querySelectorAll('.shop-item-button')
+
 const purschaseButton = document.querySelector('.btn-purchase')
 
 purschaseButton.addEventListener('click', purchaseClicked)
@@ -22,10 +22,7 @@ cartBtn.addEventListener('click' , ()=>{
     cartBtn.classList.toggle('active')
 })
 
-for(let i=0; i<addToCartButtons.length; i++){
-    let button = addToCartButtons[i]
-    button.addEventListener('click', addTocart)
-}
+
 
 
 for(let i=0; i<removeCartItemButtons.length; i++){
@@ -59,11 +56,17 @@ function displayProducts(products){
             <button class="shop-item-button" type="button">ADD TO CART</button>
         </div>
         `
+    
         musicContent.append(musicItem)
     }
-    
 
-    musicContent.append()
+    const addToCartButtons = document.querySelectorAll('.shop-item-button')
+    
+    for(let i=0; i<addToCartButtons.length; i++){
+        let button = addToCartButtons[i]
+        button.addEventListener('click', addTocart)
+    }
+    
 }
 
 function purchaseClicked(){
@@ -78,10 +81,15 @@ function purchaseClicked(){
 
 function addTocart(e){
     let item = e.target.parentElement.parentElement
+    let productId = item.id
     let title = item.querySelector('h3').innerText
     let imgSrc = item.querySelector('.prod-images').src
     let price = item.querySelector('.prod-details').querySelector('span').querySelector('span').innerText
-    console.log(title, imgSrc, price)
+
+    
+    console.log(productId, title, imgSrc, price)
+
+    axios.post("http://localhost:3000/cart", {productId})
 
     addItemToCart(title, imgSrc, price)
     updateCartTotal()
