@@ -12,7 +12,7 @@ body{
     height: 60px;
     margin: 0;
     font-size: 25px;
-    padding-left:35%;
+    padding-left:40%;
 }
 
 .nav-list{
@@ -106,7 +106,7 @@ header .play-btn{
 }
 #tours .tour-item .buy-btn{
     width:20%;
-    background: #56CCF2;
+    background: black;
     color:white;
     border:none;
     padding:7px;
@@ -205,10 +205,10 @@ section h2{
 .cart-item{
     width:45%;
 }
-.cart-img{
+.cart-item-image{
     width:80px;
     border-radius:8%;
-    margin-right:20px;
+    margin-right:30px;
 }
 .cart-price{
     width:20%;
@@ -227,7 +227,7 @@ section h2{
 .cart-quantity input{
     width:40px;
     height:30px;
-    border:1px solid rgb(0, 204, 255) ;
+    border:1px solid black ;
     border-radius:8%;
     outline:none;
     text-align:center;
@@ -258,13 +258,13 @@ section h2{
     font-size:1.5rem;
 }
 
-.purchase-btn{
+.btn-purchase{
     display: flex;
     align-items: center;
     justify-content: center;
     margin:auto;
     margin-top: 50px;
-    background: #56CCF2;
+    background: black;
     color:white;
     font-size:1.2rem;
     font-weight: bold;
@@ -323,7 +323,7 @@ footer .footer-icons{
     margin:20px;
 }
 #about div{
-    /* display:flex; */
+    /*display:flex;*/
 }
 
 #about img{
@@ -336,6 +336,7 @@ footer .footer-icons{
 
 #about p{
     font-size:17px;
+    text-align: justify;
     margin:20px;
     color:#777;
 }
@@ -468,4 +469,35 @@ header ul a{
     width: 32px;
     margin-left: 20px;
     margin-right: 20px;
+}
+
+.content-section{
+    background-color: white;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    padding: 2rem;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+
+.content-section.active{
+    transform: translateX(0);
+}
+
+ .cart-btn{
+    background-color: white;
+    border: none;
+    color: white;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem;
+    transition: transform 0.3s ease-in-out;
+}
+
+.cart-btn.active {
+    transform: translateX(-500px);
 }

@@ -15,10 +15,11 @@
 
     <div class="nav-header">
         <ul class="nav-list">
-            <li class="nav-link"><a href="#">Home</a> </li>
-            <li class="nav-link"><a href="#">Store</a> </li>
-            <li class="nav-link"><a href="#">About</a> </li>
+            <li class="nav-link"><a href="home.html">Home</a> </li>
+            <li class="nav-link"><a href="index.html">Store</a> </li>
+            <li class="nav-link"><a href="about.html">About</a> </li>
         </ul>
+        <button class="cart-btn"><img src="images/shopping-cart-empty-side-view.png" alt=""></button>
     </div>
 
     <div class="main-header">
@@ -98,6 +99,44 @@
             </div>
         </div>
 
+    </div>
+
+    <div class="container content-section">
+        <h2 class="section-header">CART</h2>
+        <div class="cart-row">
+            <span class="cart-item cart-header cart-column">ITEM</span>
+            <span class="cart-price cart-header cart-column">PRICE</span>
+            <span class="cart-quantity cart-header cart-column">QUANTITY</span>
+        </div>
+        <div class="cart-items">
+            <div class="cart-row">
+                <div class="cart-item cart-column">
+                    <img class="cart-item-image" src="images/tshirt.jpg" width="100" height="100">
+                    <span class="cart-item-title">T-Shirt</span>
+                </div>
+                <span class="cart-price cart-column">$19.99</span>
+                <div class="cart-quantity cart-column">
+                    <input class="cart-quantity-input" type="number" value="1">
+                    <button class="btn btn-danger" type="button">REMOVE</button>
+                </div>
+            </div>
+            <div class="cart-row">
+                <div class="cart-item cart-column">
+                    <img class="cart-item-image" src="images/album3.jpg" width="100" height="100">
+                    <span class="cart-item-title">Album 3</span>
+                </div>
+                <span class="cart-price cart-column">$9.99</span>
+                <div class="cart-quantity cart-column">
+                    <input class="cart-quantity-input" type="number" value="2">
+                    <button class="btn btn-danger" type="button">REMOVE</button>
+                </div>
+            </div>
+        </div>
+        <div class="cart-total">
+            <strong class="cart-total-title">Total</strong>
+            <span class="cart-total-price">$39.97</span>
+        </div>
+        <button class="btn btn-primary btn-purchase" type="button">PURCHASE</button>
     </div>
 
 
