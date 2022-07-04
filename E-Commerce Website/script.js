@@ -13,6 +13,37 @@ window.addEventListener('DOMContentLoaded', ()=>{
         // console.log(result.data.products)
 
         displayProducts(result.data.products)
+
+        axios.get('http://localhost:3000/cart')
+        .then(result=>{
+            let products = result.data.products
+            let product = products[0]
+            console.log(product.id, product.title, product.cartItem.quantity, product.price)
+
+            for(let i=0; i<products.length; i++){
+                let cartRow = document.createElement('div')
+                let cart = document.querySelectorAll('.cart-items')[0]
+
+                cartRow.classList.add('cart-row')
+                cartRow.innerHTML = `
+                <div class="cart-item cart-column">
+                                <img class="cart-item-image" src="${products[i].imageUrl}" width="100" height="100">
+                                <span class="cart-item-title">${products[i].title}</span>
+                            </div>
+                            <span class="cart-price cart-column">$${products[i].price}</span>
+                            <div class="cart-quantity cart-column">
+                                <input class="cart-quantity-input" type="number" value="${products[i].cartItem.quantity}">
+                                <button class="btn btn-danger" type="button">REMOVE</button>
+                            </div>
+                `
+                cart.append(cartRow)
+                cartRow.querySelector('.btn-danger').addEventListener('click', removeCartItem)
+                cartRow.querySelector('.cart-quantity-input').addEventListener('change', quantityChanged)
+            
+                
+            }
+            updateCartTotal()
+        })
     })
 })
 
@@ -38,7 +69,7 @@ for(let i=0; i<quantityInputs.length; i++){
 }
 
 function displayProducts(products){
-    console.log(products)
+    //console.log(products)
     let musicContent = document.querySelector('#music-content')
     musicContent.appendChild
 
@@ -90,9 +121,9 @@ function addTocart(e){
     console.log(productId, title, imgSrc, price)
 
     axios.post("http://localhost:3000/cart", {productId})
-
-    addItemToCart(title, imgSrc, price)
-    updateCartTotal()
+    .then((result)=>{
+        addItemToCart(title, imgSrc, price)
+    }).catch(err=>console.log(err))
 }
 
 function addItemToCart(title, imgSrc, price){
@@ -122,6 +153,8 @@ function addItemToCart(title, imgSrc, price){
     cart.append(cartRow)
     cartRow.querySelector('.btn-danger').addEventListener('click', removeCartItem)
     cartRow.querySelector('.cart-quantity-input').addEventListener('change', quantityChanged)
+
+    updateCartTotal()
 }
 
 function quantityChanged(e){
