@@ -114,13 +114,15 @@ function purchaseClicked(){
         cartContainer.removeChild(cartContainer.firstChild)
     }
     updateCartTotal()
-
-    for(let i=0; i<cartItems.length; i++){
-        let productId = cartItems[i].id
-        axios.post("http://localhost:3000/orders", {productId})
-        .then(res=>console.log(res))
-        .catch(err=>console.log(err))
-    }
+    axios.post("http://localhost:3000/orders")
+    .then(res=>console.log(res))
+    .catch(err=>console.log(err))
+    // for(let i=0; i<cartItems.length; i++){
+    //     let productId = cartItems[i].id
+    //     axios.post("http://localhost:3000/orders", {productId})
+    //     .then(res=>console.log(res))
+    //     .catch(err=>console.log(err))
+    // }
     
 }
 
