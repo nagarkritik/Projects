@@ -16,33 +16,37 @@ window.addEventListener('DOMContentLoaded', ()=>{
 
         axios.get('http://localhost:3000/cart')
         .then(result=>{
+            //console.log(result)
             let products = result.data.products
-            let product = products[0]
-            console.log(product.id, product.title, product.cartItem.quantity, product.price)
+            if(products.length>0){
+                //console.log( product.title, product.cartItem.quantity, product.price)
 
-            for(let i=0; i<products.length; i++){
-                let cartRow = document.createElement('div')
-                let cart = document.querySelectorAll('.cart-items')[0]
-
-                cartRow.classList.add('cart-row')
-                cartRow.innerHTML = `
-                <div class="cart-item cart-column">
-                                <img class="cart-item-image" src="${products[i].imageUrl}" width="100" height="100">
-                                <span class="cart-item-title">${products[i].title}</span>
-                            </div>
-                            <span class="cart-price cart-column">$${products[i].price}</span>
-                            <div class="cart-quantity cart-column">
-                                <input class="cart-quantity-input" type="number" value="${products[i].cartItem.quantity}">
-                                <button class="btn btn-danger" type="button">REMOVE</button>
-                            </div>
-                `
-                cart.append(cartRow)
-                cartRow.querySelector('.btn-danger').addEventListener('click', removeCartItem)
-                cartRow.querySelector('.cart-quantity-input').addEventListener('change', quantityChanged)
-            
+                for(let i=0; i<products.length; i++){
+                    let cartRow = document.createElement('div')
+                    let cart = document.querySelectorAll('.cart-items')[0]
+    
+                    cartRow.classList.add('cart-row')
+                    cartRow.id = products[i].id
+                    cartRow.innerHTML = `
+                    <div class="cart-item cart-column">
+                                    <img class="cart-item-image" src="${products[i].imageUrl}" width="100" height="100">
+                                    <span class="cart-item-title">${products[i].title}</span>
+                                </div>
+                                <span class="cart-price cart-column">$${products[i].price}</span>
+                                <div class="cart-quantity cart-column">
+                                    <input class="cart-quantity-input" type="number" value="${products[i].cartItem.quantity}">
+                                    <button class="btn btn-danger" type="button">REMOVE</button>
+                                </div>
+                    `
+                    cart.append(cartRow)
+                    cartRow.querySelector('.btn-danger').addEventListener('click', removeCartItem)
+                    cartRow.querySelector('.cart-quantity-input').addEventListener('change', quantityChanged)
                 
+                    
+                }
+                updateCartTotal()
             }
-            updateCartTotal()
+
         })
     })
 })
@@ -101,13 +105,23 @@ function displayProducts(products){
 }
 
 function purchaseClicked(){
-    alert('Thank you for your purchase')
-    let cartItems = document.querySelector('.cart-items')
+    // let productId = 1
 
-    while(cartItems.hasChildNodes()){
-        cartItems.removeChild(cartItems.firstChild)
+    alert('Thank you for your purchase')
+    let cartContainer = document.querySelector('.cart-items')
+    let cartItems = cartContainer.querySelectorAll('.cart-row')
+    while(cartContainer.hasChildNodes()){
+        cartContainer.removeChild(cartContainer.firstChild)
     }
     updateCartTotal()
+
+    for(let i=0; i<cartItems.length; i++){
+        let productId = cartItems[i].id
+        axios.post("http://localhost:3000/orders", {productId})
+        .then(res=>console.log(res))
+        .catch(err=>console.log(err))
+    }
+    
 }
 
 function addTocart(e){
@@ -122,11 +136,11 @@ function addTocart(e){
 
     axios.post("http://localhost:3000/cart", {productId})
     .then((result)=>{
-        addItemToCart(title, imgSrc, price)
+        addItemToCart(productId, title, imgSrc, price)
     }).catch(err=>console.log(err))
 }
 
-function addItemToCart(title, imgSrc, price){
+function addItemToCart(productId ,title, imgSrc, price){
     let cartRow = document.createElement('div')
     let cart = document.querySelectorAll('.cart-items')[0]
     let cartItemNames = cart.querySelectorAll('.cart-item-title')
@@ -139,6 +153,7 @@ function addItemToCart(title, imgSrc, price){
     }
 
     cartRow.classList.add('cart-row')
+    cartRow.id = productId
     cartRow.innerHTML = `
     <div class="cart-item cart-column">
                     <img class="cart-item-image" src="${imgSrc}" width="100" height="100">
@@ -167,8 +182,14 @@ function quantityChanged(e){
 
 function removeCartItem(e){
     let buttonClicked = e.target
+    productId = buttonClicked.parentElement.parentElement.id
+    console.log(productId)
     buttonClicked.parentElement.parentElement.remove()
     updateCartTotal()
+
+    axios.post("http://localhost:3000/cart-delete-item", {productId})
+    .then(res=>console.log(res))
+    .catch(err=>console.log(err))
 }
 
 function updateCartTotal(){
